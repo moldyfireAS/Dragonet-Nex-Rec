@@ -1,12 +1,14 @@
 window.addEventListener("DOMContentLoaded", () => {
-    const path = window.location.pathname;
+    const path = window.location.pathname.toLowerCase();
 
     // Allow homepage
     if (path === "/") return;
 
-    // Allow any HTML page with .html
+    // Allow ANY HTML page (even with dots, like rec.net.html)
     if (path.endsWith(".html")) return;
+    
     if (path.endsWith(".htm")) return;
+
     // Allow extensionless pages (Cloudflare Pages routing)
     // Example: /about, /contact, /info
     if (!path.includes(".")) return;
