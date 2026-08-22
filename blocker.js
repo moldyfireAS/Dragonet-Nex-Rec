@@ -1,10 +1,17 @@
-// Get the current URL path
-const path = window.location.pathname;
+// Run as soon as the page finishes loading
+window.addEventListener("DOMContentLoaded", () => {
+    const path = window.location.pathname;
 
-// If the URL does NOT end with .html or .css → redirect to 403
-if (
-    !path.endsWith(".html") &&
-    !path.endsWith(".css")
-) {
+    // Allow homepage (/) and any .html file
+    if (path === "/" || path.endsWith(".html")) {
+        return; // allowed
+    }
+
+    // Allow any .css file
+    if (path.endsWith(".css")) {
+        return; // allowed
+    }
+
+    // Everything else → redirect to 403.html
     window.location.href = "/403.html";
-}
+});
