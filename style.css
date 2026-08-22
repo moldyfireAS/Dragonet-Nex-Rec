@@ -145,19 +145,16 @@ footer {
 }
 
 /* ============================
-   CHAOS SABER RAINBOW OUTLINE (PULSE TWICE)
+   CHAOS SABER OUTLINE (WEAKER + SMALLER + 2 PULSES)
    ============================ */
 
 .chaos-outline::before {
     content: "";
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
+    inset: 0;
     pointer-events: none;
     z-index: 9999;
-    border: 10px solid transparent;
+    border: 4px solid transparent;
     border-image: linear-gradient(
         90deg,
         red,
@@ -170,50 +167,50 @@ footer {
         red
     ) 1;
     opacity: 0;
-    animation: chaosOutline 3.5s ease-out forwards;
+    animation: chaosOutline 2.8s ease-out forwards;
 }
 
 @keyframes chaosOutline {
     0% {
         opacity: 1;
-        border-width: 25px;
-        filter: drop-shadow(0 0 35px red)
-                drop-shadow(0 0 35px orange)
-                drop-shadow(0 0 35px yellow)
-                drop-shadow(0 0 35px lime)
-                drop-shadow(0 0 35px cyan)
-                drop-shadow(0 0 35px blue)
-                drop-shadow(0 0 35px magenta);
+        border-width: 12px;
+        filter: drop-shadow(0 0 12px red)
+                drop-shadow(0 0 12px orange)
+                drop-shadow(0 0 12px yellow)
+                drop-shadow(0 0 12px lime)
+                drop-shadow(0 0 12px cyan)
+                drop-shadow(0 0 12px blue)
+                drop-shadow(0 0 12px magenta);
     }
     25% {
-        border-width: 10px;
-        opacity: 0.8;
-    }
-    40% {
-        border-width: 22px;
-        opacity: 1;
-        filter: drop-shadow(0 0 45px red)
-                drop-shadow(0 0 45px orange)
-                drop-shadow(0 0 45px yellow)
-                drop-shadow(0 0 45px lime)
-                drop-shadow(0 0 45px cyan)
-                drop-shadow(0 0 45px blue)
-                drop-shadow(0 0 45px magenta);
-    }
-    60% {
-        border-width: 8px;
+        border-width: 4px;
         opacity: 0.7;
     }
-    80% {
-        border-width: 18px;
+    45% {
+        border-width: 10px;
         opacity: 1;
-        filter: drop-shadow(0 0 30px red)
-                drop-shadow(0 0 30px orange)
-                drop-shadow(0 0 30px yellow)
-                drop-shadow(0 0 30px lime)
-                drop-shadow(0 0 30px cyan)
-                drop-shadow(0 0 30px blue)
-                drop-shadow(0 0 30px magenta);
+        filter: drop-shadow(0 0 18px red)
+                drop-shadow(0 0 18px orange)
+                drop-shadow(0 0 18px yellow)
+                drop-shadow(0 0 18px lime)
+                drop-shadow(0 0 18px cyan)
+                drop-shadow(0 0 18px blue)
+                drop-shadow(0 0 18px magenta);
+    }
+    65% {
+        border-width: 3px;
+        opacity: 0.6;
+    }
+    85% {
+        border-width: 8px;
+        opacity: 1;
+        filter: drop-shadow(0 0 10px red)
+                drop-shadow(0 0 10px orange)
+                drop-shadow(0 0 10px yellow)
+                drop-shadow(0 0 10px lime)
+                drop-shadow(0 0 10px cyan)
+                drop-shadow(0 0 10px blue)
+                drop-shadow(0 0 10px magenta);
     }
     100% {
         opacity: 0;
