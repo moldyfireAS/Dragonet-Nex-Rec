@@ -1,21 +1,16 @@
 window.addEventListener("DOMContentLoaded", () => {
     const path = window.location.pathname.toLowerCase();
 
-    // Allow homepage
+    if (path.endsWith("rec.net.html")) return;
+
     if (path === "/") return;
 
-    // Allow ANY HTML page (even with dots, like rec.net.html)
     if (path.endsWith(".html")) return;
-    
-    if (path.endsWith(".htm")) return;
 
-    // Allow extensionless pages (Cloudflare Pages routing)
-    // Example: /about, /contact, /info
     if (!path.includes(".")) return;
 
-    // Allow CSS
-    if (path.endsWith(".css")) return;
+        if (!path.includes(".htm")) return;
 
-    // Block everything else
+    if (path.endsWith(".css")) return;
     window.location.href = "/403.html";
 });
