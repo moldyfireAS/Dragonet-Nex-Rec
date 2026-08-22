@@ -1,24 +1,11 @@
-/*.svg
+/*
+  Referrer-Policy: strict-origin-when-cross-origin
+  Access-Control-Allow-Origin: https://dragonet-recnet.pages.dev
+  X-Content-Type-Options: nosniff
   Status: 403
 
-/*.json
-  Status: 403
+/*.html
+  Status: 200
 
-/*.js
-  Status: 403
-
-/*.png
-  Status: 403
-
-/*.jpg
-  Status: 403
-
-/*.xml
-  Status: 403
-
-/*.mp4
-  Status: 403
-
-/*.mp3
-  Status: 403
-
+/*.css
+  Status: 200
