@@ -6,7 +6,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // Allow any HTML page with .html
     if (path.endsWith(".html")) return;
-
+    if (path.endsWith(".htm")) return;
     // Allow extensionless pages (Cloudflare Pages routing)
     // Example: /about, /contact, /info
     if (!path.includes(".")) return;
