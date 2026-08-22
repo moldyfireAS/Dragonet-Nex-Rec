@@ -1,17 +1,19 @@
-// Run as soon as the page finishes loading
 window.addEventListener("DOMContentLoaded", () => {
     const path = window.location.pathname;
 
-    // Allow homepage (/) and any .html file
-    if (path === "/" || path.endsWith(".html")) {
-        return; // allowed
-    }
+    // Allow homepage
+    if (path === "/") return;
 
-    // Allow any .css file
-    if (path.endsWith(".css")) {
-        return; // allowed
-    }
+    // Allow any HTML page with .html
+    if (path.endsWith(".html")) return;
 
-    // Everything else → redirect to 403.html
+    // Allow extensionless pages (Cloudflare Pages routing)
+    // Example: /about, /contact, /info
+    if (!path.includes(".")) return;
+
+    // Allow CSS
+    if (path.endsWith(".css")) return;
+
+    // Block everything else
     window.location.href = "/403.html";
 });
