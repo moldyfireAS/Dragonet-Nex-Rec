@@ -7,7 +7,7 @@
     --n3-black: #0a0a0a;
     --n3-grey: #1a1a1a;
     --n3-lightgrey: #2a2a2a;
-    --n3-accent:   #2f7ed6;
+    --n3-accent: #2f7ed6;
     --n3-accent-light: #b36cff;
     --n3-white: #ffffff;
 }
@@ -39,8 +39,7 @@ h1, h2, h3 {
     font-weight: 700;
     margin: 20px 0;
     color: var(--n3-accent);
-    text-shadow: 0px 0px 10px rgba(0, 0, 139, 1.0)
-;
+    text-shadow: 0px 0px 10px rgba(0, 0, 139, 1.0);
 }
 
 h1 {
@@ -142,5 +141,83 @@ footer {
 @media (min-width: 768px) {
     body {
         padding: 40px;
+    }
+}
+
+/* ============================
+   CHAOS SABER RAINBOW OUTLINE (PULSE TWICE)
+   ============================ */
+
+.chaos-outline::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    border: 10px solid transparent;
+    border-image: linear-gradient(
+        90deg,
+        red,
+        orange,
+        yellow,
+        lime,
+        cyan,
+        blue,
+        magenta,
+        red
+    ) 1;
+    opacity: 0;
+    animation: chaosOutline 3.5s ease-out forwards;
+}
+
+@keyframes chaosOutline {
+    0% {
+        opacity: 1;
+        border-width: 25px;
+        filter: drop-shadow(0 0 35px red)
+                drop-shadow(0 0 35px orange)
+                drop-shadow(0 0 35px yellow)
+                drop-shadow(0 0 35px lime)
+                drop-shadow(0 0 35px cyan)
+                drop-shadow(0 0 35px blue)
+                drop-shadow(0 0 35px magenta);
+    }
+    25% {
+        border-width: 10px;
+        opacity: 0.8;
+    }
+    40% {
+        border-width: 22px;
+        opacity: 1;
+        filter: drop-shadow(0 0 45px red)
+                drop-shadow(0 0 45px orange)
+                drop-shadow(0 0 45px yellow)
+                drop-shadow(0 0 45px lime)
+                drop-shadow(0 0 45px cyan)
+                drop-shadow(0 0 45px blue)
+                drop-shadow(0 0 45px magenta);
+    }
+    60% {
+        border-width: 8px;
+        opacity: 0.7;
+    }
+    80% {
+        border-width: 18px;
+        opacity: 1;
+        filter: drop-shadow(0 0 30px red)
+                drop-shadow(0 0 30px orange)
+                drop-shadow(0 0 30px yellow)
+                drop-shadow(0 0 30px lime)
+                drop-shadow(0 0 30px cyan)
+                drop-shadow(0 0 30px blue)
+                drop-shadow(0 0 30px magenta);
+    }
+    100% {
+        opacity: 0;
+        border-width: 0px;
+        filter: none;
     }
 }
