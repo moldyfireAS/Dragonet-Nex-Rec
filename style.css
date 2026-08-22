@@ -143,9 +143,8 @@ footer {
         padding: 40px;
     }
 }
-
 /* ============================
-   CHAOS SABER OUTLINE (WEAKER + SMALLER + 2 PULSES)
+   CHAOS SABER OUTLINE (BLUE + PURPLE)
    ============================ */
 
 .chaos-outline::before {
@@ -157,14 +156,12 @@ footer {
     border: 4px solid transparent;
     border-image: linear-gradient(
         90deg,
-        red,
-        orange,
-        yellow,
-        lime,
-        cyan,
-        blue,
-        magenta,
-        red
+        #4a00ff,
+        #7b2fff,
+        #9b4dff,
+        #b36cff,
+        #7b2fff,
+        #4a00ff
     ) 1;
     opacity: 0;
     animation: chaosOutline 2.8s ease-out forwards;
@@ -174,13 +171,9 @@ footer {
     0% {
         opacity: 1;
         border-width: 12px;
-        filter: drop-shadow(0 0 12px red)
-                drop-shadow(0 0 12px orange)
-                drop-shadow(0 0 12px yellow)
-                drop-shadow(0 0 12px lime)
-                drop-shadow(0 0 12px cyan)
-                drop-shadow(0 0 12px blue)
-                drop-shadow(0 0 12px magenta);
+        filter: drop-shadow(0 0 15px #4a00ff)
+                drop-shadow(0 0 15px #7b2fff)
+                drop-shadow(0 0 15px #b36cff);
     }
     25% {
         border-width: 4px;
@@ -189,13 +182,9 @@ footer {
     45% {
         border-width: 10px;
         opacity: 1;
-        filter: drop-shadow(0 0 18px red)
-                drop-shadow(0 0 18px orange)
-                drop-shadow(0 0 18px yellow)
-                drop-shadow(0 0 18px lime)
-                drop-shadow(0 0 18px cyan)
-                drop-shadow(0 0 18px blue)
-                drop-shadow(0 0 18px magenta);
+        filter: drop-shadow(0 0 22px #4a00ff)
+                drop-shadow(0 0 22px #7b2fff)
+                drop-shadow(0 0 22px #b36cff);
     }
     65% {
         border-width: 3px;
@@ -204,13 +193,9 @@ footer {
     85% {
         border-width: 8px;
         opacity: 1;
-        filter: drop-shadow(0 0 10px red)
-                drop-shadow(0 0 10px orange)
-                drop-shadow(0 0 10px yellow)
-                drop-shadow(0 0 10px lime)
-                drop-shadow(0 0 10px cyan)
-                drop-shadow(0 0 10px blue)
-                drop-shadow(0 0 10px magenta);
+        filter: drop-shadow(0 0 12px #4a00ff)
+                drop-shadow(0 0 12px #7b2fff)
+                drop-shadow(0 0 12px #b36cff);
     }
     100% {
         opacity: 0;
@@ -218,3 +203,5 @@ footer {
         filter: none;
     }
 }
+
+
