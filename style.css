@@ -23,7 +23,7 @@
 body {
     font-family: "Segoe UI", Arial, sans-serif;
     background: var(--n3-grey);
-    color: var(--n3-white);
+    color: var(--n3-purple);
     padding: 30px;
     line-height: 1.5;
 }
@@ -57,7 +57,7 @@ h3 {
 /* Paragraphs */
 p {
     margin-bottom: 15px;
-    color: var(--n3-white);
+    color: var(--n3-purple);
 }
 
 /* Links */
