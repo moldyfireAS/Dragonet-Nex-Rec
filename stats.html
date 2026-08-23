@@ -4,8 +4,9 @@
   <meta charset="UTF-8">
   <title>Server Stats</title>
   <link rel="stylesheet" href="/style.css">
-  <link rel="icon" type="image/png" href="icon.png">
-  </head><body class="chaos-outline">
+ <link rel="icon" type="image/png" href="icon.png">
+</head><body class="chaos-outline">
+
   <h1>Server Stats</h1>
 
   <div class="stat-box">
@@ -18,11 +19,6 @@
     <p id="online">Loading...</p>
   </div>
 
-  <div class="stat-box">
-    <h2>Boost Count</h2>
-    <p id="boosts">Loading...</p>
-  </div>
-
   <script>
     async function loadStats() {
       const res = await fetch("/stats");
@@ -30,9 +26,11 @@
 
       document.getElementById("total").textContent = data.total_members;
       document.getElementById("online").textContent = data.online_members;
+    }
 
     loadStats();
   </script>
 
 </body>
 </html>
+
