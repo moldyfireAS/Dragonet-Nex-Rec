@@ -1,1 +1,1 @@
-*.svg linguist-documentation=false linguist-language=XML
+*.svg linguist-language=XML linguist-detectable=true
