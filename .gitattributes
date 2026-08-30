@@ -1,1 +1,3 @@
-*.svg linguist-language=XML linguist-detectable=true
+#i hate you winter. your the worst
+*.svg linguist-language=XML
+*.xml linguist-detectable=true
