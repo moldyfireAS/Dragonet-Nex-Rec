@@ -1,8 +1,4 @@
-/* ============================
-   N3XI0M GLOBAL BRANDING
-   ============================ */
 
-/* Color palette */
 :root {
     --n3-black: #0a0a0a;
     --n3-grey: #1a1a1a;
@@ -24,17 +20,13 @@ body {
     font-family: "Segoe UI", Arial, sans-serif;
     background: var(--n3-grey);
     color: var(--n3-purple);
-    padding: 30px;
-    line-height: 1.5;
+    padding: 30px;    line-height: 1.5;
 }
-
-/* Universal page width */
 .container {
     max-width: 1000px;
     margin: auto;
 }
 
-/* Headers */
 h1, h2, h3 {
     font-weight: 700;
     margin: 20px 0;
@@ -54,13 +46,10 @@ h3 {
     font-size: 1.4rem;
 }
 
-/* Paragraphs */
 p {
     margin-bottom: 15px;
     color: var(--n3-purple);
 }
-
-/* Links */
 a {
     color: var(--n3-accent-light);
     text-decoration: none;
@@ -71,8 +60,6 @@ a:hover {
     color: var(--n3-accent);
     text-decoration: underline;
 }
-
-/* Navigation blocks */
 nav, .nav-block {
     background: var(--n3-black);
     padding: 15px;
@@ -86,7 +73,6 @@ nav a, .nav-block a {
     font-weight: 600;
 }
 
-/* Buttons */
 button, .btn, a.btn {
     background: var(--n3-accent);
     color: var(--n3-black);
@@ -101,7 +87,6 @@ button:hover, .btn:hover, a.btn:hover {
     background: var(--n3-accent-light);
 }
 
-/* Lists */
 ul {
     margin: 20px 0;
     padding-left: 25px;
@@ -111,7 +96,6 @@ li {
     margin-bottom: 10px;
 }
 
-/* Images */
 img {
     max-width: 100%;
     border-radius: 10px;
@@ -119,7 +103,6 @@ img {
     box-shadow: 0px 0px 15px rgba(94, 52, 141, 1.0);
 }
 
-/* Section blocks */
 .section {
     background: var(--n3-lightgrey);
     padding: 20px;
@@ -127,7 +110,6 @@ img {
     margin-bottom: 25px;
 }
 
-/* Footer */
 footer {
     margin-top: 40px;
     padding: 20px;
@@ -137,16 +119,11 @@ footer {
     color: var(--n3-accent-light);
 }
 
-/* Responsive */
 @media (min-width: 768px) {
     body {
         padding: 40px;
     }
 }
-/* ============================
-   CHAOS SABER OUTLINE (BLUE + PURPLE)
-   ============================ */
-
 .chaos-outline::before {
     content: "";
     position: fixed;
