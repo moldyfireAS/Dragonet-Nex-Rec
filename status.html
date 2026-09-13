@@ -204,12 +204,25 @@
       });
 
       if (stats.ok) {
-        setState(
-          "stats-status",
-          "stats-dot",
-          "Operational",
-          "ok"
-        );
+        const statsData = await stats.json();
+        const statsState =
+          stats.headers.get("X-N3XI0M-Stats-Status");
+
+        if (statsData.degraded || statsState === "degraded") {
+          setState(
+            "stats-status",
+            "stats-dot",
+            "Degraded — cached data",
+            "warn"
+          );
+        } else {
+          setState(
+            "stats-status",
+            "stats-dot",
+            "Operational",
+            "ok"
+          );
+        }
       } else if (stats.status === 503) {
         setState(
           "stats-status",
