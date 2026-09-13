@@ -1,0 +1,33 @@
+name: Feature request
+description: Suggest an improvement for the N3XI0M website.
+title: "[Feature]: "
+labels:
+  - enhancement
+body:
+  - type: textarea
+    id: idea
+    attributes:
+      label: Feature
+      description: What would you like added or changed?
+    validations:
+      required: true
+
+  - type: textarea
+    id: reason
+    attributes:
+      label: Why would this help?
+      description: Explain the user or project benefit.
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Suggested implementation
+      description: Optional technical or design ideas.
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: References
+      description: Add screenshots, mockups, or examples if useful.

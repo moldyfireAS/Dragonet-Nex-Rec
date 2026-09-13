@@ -25,3 +25,6 @@ jobs:
 
       - name: Check JavaScript syntax
         run: node --check functions/stats.js
+
+      - name: Check performance budgets
+        run: python scripts/perf_audit.py
