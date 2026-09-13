@@ -1,0 +1,26 @@
+{
+  "product": "N3XI0M",
+  "version": "0.1.0",
+  "channel": "alpha",
+  "status": "available",
+  "released_at": "2026-09-13",
+  "platforms": [
+    "Windows 10",
+    "Windows 11"
+  ],
+  "distribution": {
+    "type": "discord",
+    "url": "/jointheclub.html",
+    "label": "Get N3XI0M through Discord"
+  },
+  "requirements": {
+    "architecture": "64-bit",
+    "internet": true,
+    "discord_required": true
+  },
+  "notes": [
+    "Initial public alpha release.",
+    "Launcher access is currently distributed through the official Discord.",
+    "Updates, patches and support are provided through the N3XI0M community."
+  ]
+}
