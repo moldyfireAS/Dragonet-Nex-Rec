@@ -1,5 +1,6 @@
 const INVITE_CODE = "9bFfM7Ppsz";
 const DISCORD_TIMEOUT_MS = 5000;
+const FALLBACK_CACHE_SECONDS = 1800;
 
 function secureHeaders(headers = {}) {
   const result = new Headers(headers);
@@ -59,7 +60,121 @@ function isEmergencyAuthorized(request, env) {
   return timingSafeEqual(provided, expected);
 }
 
-export async function onRequest({ request, env }) {
+function fallbackCacheKey(request) {
+  const url = new URL(request.url);
+
+  url.pathname = "/__n3xi0m_internal_stats_cache";
+  url.search = "";
+
+  return new Request(url.toString(), {
+    method: "GET",
+  });
+}
+
+async function readFallback(request) {
+  try {
+    const cached = await caches.default.match(fallbackCacheKey(request));
+
+    if (!cached) {
+      return null;
+    }
+
+    const data = await cached.json();
+
+    const total = Number(data.total_members);
+    const online = Number(data.online_members);
+
+    if (!Number.isFinite(total) || !Number.isFinite(online)) {
+      return null;
+    }
+
+    return {
+      total_members: total,
+      online_members: online,
+      cached_at: data.cached_at || null,
+    };
+  } catch {
+    return null;
+  }
+}
+
+async function writeFallback(request, payload, waitUntil) {
+  const cachedPayload = {
+    total_members: payload.total_members,
+    online_members: payload.online_members,
+    cached_at: new Date().toISOString(),
+  };
+
+  const response = new Response(JSON.stringify(cachedPayload), {
+    headers: {
+      "Content-Type": "application/json; charset=utf-8",
+      "Cache-Control": `public, max-age=${FALLBACK_CACHE_SECONDS}`,
+    },
+  });
+
+  const operation = caches.default.put(
+    fallbackCacheKey(request),
+    response
+  );
+
+  if (typeof waitUntil === "function") {
+    waitUntil(operation);
+  } else {
+    await operation;
+  }
+}
+
+function degradedResponse(cached, trafficMode, reason) {
+  return json(
+    {
+      total_members: cached.total_members,
+      online_members: cached.online_members,
+      traffic_mode: trafficMode,
+      degraded: true,
+      source: "stale_cache",
+      cached_at: cached.cached_at,
+      degraded_reason: reason,
+    },
+    {
+      status: 200,
+      headers: {
+        "X-N3XI0M-Traffic-Mode": trafficMode,
+        "X-N3XI0M-Stats-Status": "degraded",
+        Warning: '110 - "Response is stale"',
+      },
+    },
+    "no-store"
+  );
+}
+
+async function upstreamFailure(request, trafficMode, error, message) {
+  const cached = await readFallback(request);
+
+  if (cached) {
+    return degradedResponse(
+      cached,
+      trafficMode,
+      error
+    );
+  }
+
+  return json(
+    {
+      error,
+      message,
+      degraded: true,
+    },
+    {
+      status: 502,
+      headers: {
+        "X-N3XI0M-Traffic-Mode": trafficMode,
+        "X-N3XI0M-Stats-Status": "unavailable",
+      },
+    }
+  );
+}
+
+export async function onRequest({ request, env, waitUntil }) {
   if (!["GET", "HEAD"].includes(request.method)) {
     return json(
       {
@@ -75,9 +190,14 @@ export async function onRequest({ request, env }) {
     );
   }
 
-  const trafficMode = String(env?.TRAFFIC_MODE || "normal").toLowerCase();
+  const trafficMode = String(
+    env?.TRAFFIC_MODE || "normal"
+  ).toLowerCase();
 
-  if (trafficMode === "restricted" && !isEmergencyAuthorized(request, env)) {
+  if (
+    trafficMode === "restricted" &&
+    !isEmergencyAuthorized(request, env)
+  ) {
     return json(
       {
         error: "traffic_restriction",
@@ -90,13 +210,17 @@ export async function onRequest({ request, env }) {
         headers: {
           "Retry-After": "120",
           "X-N3XI0M-Traffic-Mode": "restricted",
+          "X-N3XI0M-Stats-Status": "restricted",
         },
       }
     );
   }
 
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), DISCORD_TIMEOUT_MS);
+  const timeout = setTimeout(
+    () => controller.abort(),
+    DISCORD_TIMEOUT_MS
+  );
 
   try {
     const response = await fetch(
@@ -110,12 +234,11 @@ export async function onRequest({ request, env }) {
     );
 
     if (!response.ok) {
-      return json(
-        {
-          error: "discord_upstream_error",
-          message: "Discord stats are temporarily unavailable.",
-        },
-        { status: 502 }
+      return upstreamFailure(
+        request,
+        trafficMode,
+        "discord_upstream_error",
+        "Discord stats are temporarily unavailable."
       );
     }
 
@@ -124,12 +247,11 @@ export async function onRequest({ request, env }) {
     try {
       data = await response.json();
     } catch {
-      return json(
-        {
-          error: "invalid_discord_response",
-          message: "Discord returned an invalid response.",
-        },
-        { status: 502 }
+      return upstreamFailure(
+        request,
+        trafficMode,
+        "invalid_discord_response",
+        "Discord returned an invalid response."
       );
     }
 
@@ -137,12 +259,11 @@ export async function onRequest({ request, env }) {
     const online = Number(data.approximate_presence_count);
 
     if (!Number.isFinite(total) || !Number.isFinite(online)) {
-      return json(
-        {
-          error: "missing_discord_counts",
-          message: "Discord did not provide member counts.",
-        },
-        { status: 502 }
+      return upstreamFailure(
+        request,
+        trafficMode,
+        "missing_discord_counts",
+        "Discord did not provide member counts."
       );
     }
 
@@ -158,13 +279,24 @@ export async function onRequest({ request, env }) {
       total_members: total,
       online_members: online,
       traffic_mode: trafficMode,
+      degraded: false,
+      source: "discord",
     };
+
+    if (!authorizedRestrictedRequest) {
+      await writeFallback(
+        request,
+        payload,
+        waitUntil
+      );
+    }
 
     if (request.method === "HEAD") {
       const headers = secureHeaders({
         "Cache-Control": cacheControl,
         "Content-Type": "application/json; charset=utf-8",
         "X-N3XI0M-Traffic-Mode": trafficMode,
+        "X-N3XI0M-Stats-Status": "operational",
       });
 
       return new Response(null, {
@@ -178,6 +310,7 @@ export async function onRequest({ request, env }) {
       {
         headers: {
           "X-N3XI0M-Traffic-Mode": trafficMode,
+          "X-N3XI0M-Stats-Status": "operational",
         },
       },
       cacheControl
@@ -185,14 +318,13 @@ export async function onRequest({ request, env }) {
   } catch (error) {
     const timedOut = error?.name === "AbortError";
 
-    return json(
-      {
-        error: timedOut ? "discord_timeout" : "discord_fetch_failed",
-        message: timedOut
-          ? "Discord stats request timed out."
-          : "Unable to contact Discord.",
-      },
-      { status: 502 }
+    return upstreamFailure(
+      request,
+      trafficMode,
+      timedOut ? "discord_timeout" : "discord_fetch_failed",
+      timedOut
+        ? "Discord stats request timed out."
+        : "Unable to contact Discord."
     );
   } finally {
     clearTimeout(timeout);
