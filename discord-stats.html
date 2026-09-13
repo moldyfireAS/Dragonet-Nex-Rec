@@ -2,30 +2,68 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View current N3XI0M Discord community member and online statistics.">
   <title>Server Stats</title>
   <link rel="stylesheet" href="/style.css">
  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="canonical" href="https://dragonet-recnet.pages.dev/discord-stats.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Server Stats">
+  <meta property="og:description" content="View current N3XI0M Discord community member and online statistics.">
+  <meta property="og:url" content="https://dragonet-recnet.pages.dev/discord-stats.html">
+  <meta property="og:image" content="https://dragonet-recnet.pages.dev/nexi2.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Server Stats">
+  <meta name="twitter:description" content="View current N3XI0M Discord community member and online statistics.">
+  <meta name="twitter:image" content="https://dragonet-recnet.pages.dev/nexi2.png">
 </head><body class="chaos-outline">
 
   <h1>Server Stats</h1>
 
   <div class="stat-box">
     <h2>Total novas</h2>
-    <p id="total">Loading...</p>
+    <p id="total" role="status" aria-live="polite">Loading...</p>
   </div>
 
   <div class="stat-box">
     <h2>Online novas</h2>
-    <p id="online">Loading...</p>
+    <p id="online" role="status" aria-live="polite">Loading...</p>
   </div>
 
   <script>
     async function loadStats() {
-      const res = await fetch("/stats");
-      const data = await res.json();
+      const total = document.getElementById("total");
+      const online = document.getElementById("online");
 
-      document.getElementById("total").textContent = data.total_members;
-      document.getElementById("online").textContent = data.online_members;
+      try {
+        const res = await fetch("/stats", {
+          headers: {
+            Accept: "application/json"
+          }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Stats request failed");
+        }
+
+        if (
+          typeof data.total_members !== "number" ||
+          typeof data.online_members !== "number"
+        ) {
+          throw new Error("Invalid stats response");
+        }
+
+        total.textContent = data.total_members.toLocaleString();
+        online.textContent = data.online_members.toLocaleString();
+      } catch (error) {
+        console.error("Failed to load Discord stats:", error);
+
+        total.textContent = "Unavailable";
+        online.textContent = "Unavailable";
+      }
     }
 
     loadStats();

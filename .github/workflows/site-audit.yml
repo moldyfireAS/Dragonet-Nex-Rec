@@ -1,0 +1,27 @@
+name: Site Audit
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Audit site
+        run: python scripts/audit_site.py
+
+      - name: Check JavaScript syntax
+        run: node --check functions/stats.js
