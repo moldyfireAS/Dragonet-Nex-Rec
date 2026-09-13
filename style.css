@@ -513,3 +513,118 @@ a.btn:active {
     flex-direction: column;
   }
 }
+
+/* Download and release hub */
+.download-hero {
+  display: grid;
+  gap: 20px;
+}
+
+.download-lead {
+  max-width: 760px;
+  font-size: 1.05rem;
+  color: var(--muted);
+}
+
+.release-summary {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.release-summary > div,
+.download-card {
+  padding: 18px;
+  border: 1px solid rgba(168, 116, 255, .2);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, .025);
+}
+
+.release-summary strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 1.05rem;
+}
+
+.release-label {
+  color: var(--muted);
+  font-size: .82rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.download-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn-secondary {
+  background: transparent;
+}
+
+.download-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.download-card h2 {
+  margin-top: 0;
+}
+
+.requirements-list {
+  display: grid;
+  gap: 12px;
+}
+
+.requirements-list div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+
+.requirements-list dt {
+  color: var(--muted);
+}
+
+.requirements-list dd {
+  margin: 0;
+  text-align: right;
+}
+
+.install-steps {
+  display: grid;
+  gap: 10px;
+  padding-left: 22px;
+}
+
+.download-warning {
+  margin-top: 20px;
+  padding: 16px 18px;
+  border: 1px solid rgba(244, 189, 80, .35);
+  border-radius: var(--radius);
+  background: rgba(244, 189, 80, .07);
+}
+
+.download-warning p {
+  margin-bottom: 0;
+}
+
+@media (max-width: 760px) {
+  .release-summary {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .download-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 460px) {
+  .release-summary {
+    grid-template-columns: 1fr;
+  }
+}

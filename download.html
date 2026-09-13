@@ -6,49 +6,6 @@
   <meta name="description" content="Find information about downloading the N3XI0M launcher and joining the community.">
     <title>N3XI0M Download</title>
 <link rel="stylesheet" href="style.css">
-    <style>
-        body {
-            background: #2f2f2f;
-            color: white;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding-top: 40px;
-        }
-
-        h1 {
-            font-size: 45px;
-            background: linear-gradient(90deg, #4aa8ff, #b36cff);
-            color: transparent;
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-mask-image: linear-gradient(#fff 0 0);
-            mask-image: linear-gradient(#fff 0 0);
-        }
-
-        .promo {
-            width: 70%;
-            max-width: 700px;
-            border-radius: 12px;
-            margin: 25px auto;
-            display: block;
-        }
-
-        .box {
-            background: #3a3a3a;
-            padding: 25px;
-            margin: 30px auto;
-            width: 70%;
-            border-radius: 12px;
-            border: 2px solid #4aa8ff;
-        }
-
-        p {
-            font-size: 18px;
-            opacity: 0.85;
-            margin: 10px;
-        }
-
-    </style>
   <link rel="canonical" href="https://dragonet-recnet.pages.dev/download.html">
   <meta property="og:type" content="website">
   <meta property="og:title" content="N3XI0M Download">
@@ -99,27 +56,204 @@
 
 <main class="site-main site-shell">
 
+<section class="download-hero">
+  <p class="eyebrow">Official Distribution</p>
+  <h1>Download N3XI0M</h1>
+  <p class="download-lead">
+    Get the latest supported N3XI0M release, review requirements,
+    and find installation and support information.
+  </p>
 
-    <h1>N3XI0M Download</h1>
-
-
-    <img src="download-promo.png" class="promo" alt="N3XI0M Download Promo">
-
-    <div class="box">
-        <p><strong>The N3XI0M launcher download is ONLY available inside our Discord server.</strong></p>
-        <p>You must join the Discord to access it for security. but if you join you'll get accesse to:</p>
-
-        <p>• The launcher download
-           • Updates & patches
-           • Support
-           • Server announcements
-           • Community access</p>
-
-    <a class="btn" href="/jointheclub.html">join the discord!</a>
-
-    <a class="btn" href="/index.html">Go Home</a>
+  <div class="release-summary" aria-live="polite">
+    <div>
+      <span class="release-label">Latest version</span>
+      <strong id="release-version">Loading…</strong>
     </div>
 
+    <div>
+      <span class="release-label">Channel</span>
+      <strong id="release-channel">Loading…</strong>
+    </div>
+
+    <div>
+      <span class="release-label">Release status</span>
+      <strong id="release-status">Loading…</strong>
+    </div>
+
+    <div>
+      <span class="release-label">Released</span>
+      <strong id="release-date">Loading…</strong>
+    </div>
+  </div>
+
+  <div class="download-actions">
+    <a class="btn" id="release-download" href="/jointheclub.html">
+      Get N3XI0M through Discord
+    </a>
+
+    <a class="btn btn-secondary" href="/support.html">
+      Installation Support
+    </a>
+  </div>
+</section>
+
+<section class="download-grid">
+  <article class="download-card">
+    <h2>Supported Platforms</h2>
+    <ul id="release-platforms">
+      <li>Loading…</li>
+    </ul>
+  </article>
+
+  <article class="download-card">
+    <h2>Requirements</h2>
+    <dl class="requirements-list">
+      <div>
+        <dt>Architecture</dt>
+        <dd id="requirement-architecture">Loading…</dd>
+      </div>
+
+      <div>
+        <dt>Internet</dt>
+        <dd id="requirement-internet">Loading…</dd>
+      </div>
+
+      <div>
+        <dt>Discord</dt>
+        <dd id="requirement-discord">Loading…</dd>
+      </div>
+    </dl>
+  </article>
+</section>
+
+<section>
+  <h2>How to Download</h2>
+
+  <ol class="install-steps">
+    <li>Join the official N3XI0M Discord community.</li>
+    <li>Use the official download channel or release instructions.</li>
+    <li>Download the current launcher from the approved source.</li>
+    <li>Follow the installation instructions included with the release.</li>
+    <li>Check the support page if installation or startup fails.</li>
+  </ol>
+
+  <div class="download-warning">
+    <strong>Security notice</strong>
+    <p>
+      Only download N3XI0M from sources linked by this website or the official
+      N3XI0M Discord. Avoid unofficial mirrors or modified installers.
+    </p>
+  </div>
+</section>
+
+<section>
+  <h2>Release Notes</h2>
+  <ul id="release-notes">
+    <li>Loading release information…</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Troubleshooting</h2>
+  <p>
+    If the launcher does not download, install, or start correctly, check the
+    support page and confirm you are using the latest release.
+  </p>
+
+  <div class="download-actions">
+    <a class="btn" href="/support.html">Open Support</a>
+    <a class="btn btn-secondary" href="/status.html">Check Service Status</a>
+  </div>
+</section>
+
+<script>
+(async () => {
+  const setText = (id, value) => {
+    document.getElementById(id).textContent = value;
+  };
+
+  try {
+    const response = await fetch("/release.json", {
+      cache: "no-store"
+    });
+
+    if (!response.ok) {
+      throw new Error(`release.json returned ${response.status}`);
+    }
+
+    const release = await response.json();
+
+    setText("release-version", release.version || "Unknown");
+    setText("release-channel", release.channel || "Unknown");
+    setText("release-status", release.status || "Unknown");
+    setText("release-date", release.released_at || "Unknown");
+
+    const download = document.getElementById("release-download");
+
+    if (release.distribution?.url) {
+      download.href = release.distribution.url;
+    }
+
+    if (release.distribution?.label) {
+      download.textContent = release.distribution.label;
+    }
+
+    const platforms = document.getElementById("release-platforms");
+    platforms.replaceChildren();
+
+    for (const platform of release.platforms || []) {
+      const li = document.createElement("li");
+      li.textContent = platform;
+      platforms.appendChild(li);
+    }
+
+    if (!platforms.children.length) {
+      const li = document.createElement("li");
+      li.textContent = "No supported platforms listed.";
+      platforms.appendChild(li);
+    }
+
+    setText(
+      "requirement-architecture",
+      release.requirements?.architecture || "Not specified"
+    );
+
+    setText(
+      "requirement-internet",
+      release.requirements?.internet ? "Required" : "Not required"
+    );
+
+    setText(
+      "requirement-discord",
+      release.requirements?.discord_required
+        ? "Required for distribution"
+        : "Not required"
+    );
+
+    const notes = document.getElementById("release-notes");
+    notes.replaceChildren();
+
+    for (const note of release.notes || []) {
+      const li = document.createElement("li");
+      li.textContent = note;
+      notes.appendChild(li);
+    }
+
+    if (!notes.children.length) {
+      const li = document.createElement("li");
+      li.textContent = "No release notes available.";
+      notes.appendChild(li);
+    }
+  } catch (error) {
+    setText("release-version", "Unavailable");
+    setText("release-channel", "Unavailable");
+    setText("release-status", "Unavailable");
+    setText("release-date", "Unavailable");
+
+    console.error("Unable to load release information", error);
+  }
+})();
+</script>
 
 </main>
 
