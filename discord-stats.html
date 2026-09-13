@@ -21,11 +21,37 @@
 
   <script>
     async function loadStats() {
-      const res = await fetch("/stats");
-      const data = await res.json();
+      const total = document.getElementById("total");
+      const online = document.getElementById("online");
 
-      document.getElementById("total").textContent = data.total_members;
-      document.getElementById("online").textContent = data.online_members;
+      try {
+        const res = await fetch("/stats", {
+          headers: {
+            Accept: "application/json"
+          }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.message || "Stats request failed");
+        }
+
+        if (
+          typeof data.total_members !== "number" ||
+          typeof data.online_members !== "number"
+        ) {
+          throw new Error("Invalid stats response");
+        }
+
+        total.textContent = data.total_members.toLocaleString();
+        online.textContent = data.online_members.toLocaleString();
+      } catch (error) {
+        console.error("Failed to load Discord stats:", error);
+
+        total.textContent = "Unavailable";
+        online.textContent = "Unavailable";
+      }
     }
 
     loadStats();
