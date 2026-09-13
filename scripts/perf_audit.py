@@ -139,6 +139,7 @@ if css_path.exists():
         "status-warn",
         "status-bad",
         "status-unknown",
+        "support-checklist-status--ready",
     }
 
     unused = [
