@@ -135,6 +135,10 @@ if css_path.exists():
         "section",
         "nav-block",
         "visually-hidden",
+        "status-ok",
+        "status-warn",
+        "status-bad",
+        "status-unknown",
     }
 
     unused = [

@@ -1,0 +1,78 @@
+name: Production Health Monitor
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Check production
+        id: health
+        continue-on-error: true
+        run: |
+          python scripts/health_check.py 2>&1 | tee health-check.txt
+
+      - name: Open incident issue
+        if: steps.health.outcome == 'failure'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          EXISTING="$(gh issue list \
+            --state open \
+            --search '"Automated production health alert" in:title' \
+            --json number \
+            --jq '.[0].number // empty')"
+
+          if [ -z "$EXISTING" ]; then
+            {
+              echo "Automated production monitoring detected a failure."
+              echo
+              echo '```text'
+              cat health-check.txt
+              echo '```'
+              echo
+              echo "Workflow: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            } > health-issue.md
+
+            gh issue create \
+              --title "Automated production health alert" \
+              --body-file health-issue.md
+          else
+            echo "Existing incident issue #$EXISTING is already open."
+          fi
+
+      - name: Close recovered incident issue
+        if: steps.health.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          EXISTING="$(gh issue list \
+            --state open \
+            --search '"Automated production health alert" in:title' \
+            --json number \
+            --jq '.[0].number // empty')"
+
+          if [ -n "$EXISTING" ]; then
+            gh issue close "$EXISTING" \
+              --comment "Automated production health checks have recovered."
+          fi
+
+      - name: Fail workflow when unhealthy
+        if: steps.health.outcome == 'failure'
+        run: exit 1

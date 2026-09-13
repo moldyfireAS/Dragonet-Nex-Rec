@@ -56,3 +56,22 @@ These controls are intended to preserve service availability for legitimate user
 Application code is not a replacement for Cloudflare's network-level DDoS protection.
 
 Rate limiting, managed challenges, bot controls, and emergency firewall rules should be enforced at Cloudflare's edge.
+
+## Site Maintenance Mode
+
+Maintenance mode is separate from traffic protection.
+
+Normal operation:
+
+    SITE_MODE=normal
+
+Planned maintenance:
+
+    SITE_MODE=maintenance
+
+When maintenance mode is active, normal public pages return HTTP 503 with a
+Retry-After header and a dedicated maintenance page.
+
+The `/health` and `/stats` endpoints remain reachable for operational checks.
+
+`SITE_MODE` defaults to `normal` if the variable is not configured.
