@@ -1,10 +1,22 @@
 const INVITE_CODE = "9bFfM7Ppsz";
 const DISCORD_TIMEOUT_MS = 5000;
 
-function json(data, init = {}) {
-  const headers = new Headers(init.headers || {});
+function secureHeaders(headers = {}) {
+  const result = new Headers(headers);
+
+  result.set("X-Content-Type-Options", "nosniff");
+  result.set("Referrer-Policy", "same-origin");
+  result.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  result.set("X-Frame-Options", "DENY");
+
+  return result;
+}
+
+function json(data, init = {}, cacheControl = "no-store") {
+  const headers = secureHeaders(init.headers || {});
+
   headers.set("Content-Type", "application/json; charset=utf-8");
-  headers.set("Cache-Control", "public, max-age=60, stale-while-revalidate=300");
+  headers.set("Cache-Control", cacheControl);
 
   return new Response(JSON.stringify(data), {
     ...init,
@@ -12,12 +24,82 @@ function json(data, init = {}) {
   });
 }
 
-export async function onRequest() {
+function timingSafeEqual(a, b) {
+  if (typeof a !== "string" || typeof b !== "string") {
+    return false;
+  }
+
+  const encoder = new TextEncoder();
+  const aa = encoder.encode(a);
+  const bb = encoder.encode(b);
+
+  if (aa.length !== bb.length) {
+    return false;
+  }
+
+  let result = 0;
+
+  for (let i = 0; i < aa.length; i++) {
+    result |= aa[i] ^ bb[i];
+  }
+
+  return result === 0;
+}
+
+function isEmergencyAuthorized(request, env) {
+  const secret = env?.EMERGENCY_ACCESS_TOKEN;
+
+  if (!secret) {
+    return false;
+  }
+
+  const provided = request.headers.get("Authorization");
+  const expected = `Bearer ${secret}`;
+
+  return timingSafeEqual(provided, expected);
+}
+
+export async function onRequest({ request, env }) {
+  if (!["GET", "HEAD"].includes(request.method)) {
+    return json(
+      {
+        error: "method_not_allowed",
+        message: "Only GET and HEAD requests are supported.",
+      },
+      {
+        status: 405,
+        headers: {
+          Allow: "GET, HEAD",
+        },
+      }
+    );
+  }
+
+  const trafficMode = String(env?.TRAFFIC_MODE || "normal").toLowerCase();
+
+  if (trafficMode === "restricted" && !isEmergencyAuthorized(request, env)) {
+    return json(
+      {
+        error: "traffic_restriction",
+        message:
+          "Discord statistics are temporarily restricted due to unusually high traffic.",
+        retry_after_seconds: 120,
+      },
+      {
+        status: 503,
+        headers: {
+          "Retry-After": "120",
+          "X-N3XI0M-Traffic-Mode": "restricted",
+        },
+      }
+    );
+  }
+
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), DISCORD_TIMEOUT_MS);
 
   try {
-    const res = await fetch(
+    const response = await fetch(
       `https://discord.com/api/v10/invites/${INVITE_CODE}?with_counts=true`,
       {
         headers: {
@@ -27,7 +109,7 @@ export async function onRequest() {
       }
     );
 
-    if (!res.ok) {
+    if (!response.ok) {
       return json(
         {
           error: "discord_upstream_error",
@@ -40,7 +122,7 @@ export async function onRequest() {
     let data;
 
     try {
-      data = await res.json();
+      data = await response.json();
     } catch {
       return json(
         {
@@ -64,10 +146,42 @@ export async function onRequest() {
       );
     }
 
-    return json({
+    const authorizedRestrictedRequest =
+      trafficMode === "restricted" &&
+      isEmergencyAuthorized(request, env);
+
+    const cacheControl = authorizedRestrictedRequest
+      ? "private, no-store"
+      : "public, max-age=60, stale-while-revalidate=300";
+
+    const payload = {
       total_members: total,
       online_members: online,
-    });
+      traffic_mode: trafficMode,
+    };
+
+    if (request.method === "HEAD") {
+      const headers = secureHeaders({
+        "Cache-Control": cacheControl,
+        "Content-Type": "application/json; charset=utf-8",
+        "X-N3XI0M-Traffic-Mode": trafficMode,
+      });
+
+      return new Response(null, {
+        status: 200,
+        headers,
+      });
+    }
+
+    return json(
+      payload,
+      {
+        headers: {
+          "X-N3XI0M-Traffic-Mode": trafficMode,
+        },
+      },
+      cacheControl
+    );
   } catch (error) {
     const timedOut = error?.name === "AbortError";
 

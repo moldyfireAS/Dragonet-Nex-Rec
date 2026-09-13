@@ -1,3 +1,8 @@
 # git GOOD
 webhooktest.txt
 .gitattributes
+
+# Local traffic-protection secrets
+.env
+.env.*
+.dev.vars
