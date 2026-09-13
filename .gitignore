@@ -6,3 +6,7 @@ webhooktest.txt
 .env
 .env.*
 .dev.vars
+
+# Python cache
+__pycache__/
+*.pyc

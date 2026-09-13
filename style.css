@@ -418,3 +418,98 @@ a.btn:active {
     flex-direction: column;
   }
 }
+
+/* Operations status dashboard */
+.status-dashboard {
+  display: grid;
+  gap: 28px;
+}
+
+.status-dashboard__intro {
+  max-width: 760px;
+}
+
+.eyebrow {
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  font-size: .8rem;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.status-card {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 20px;
+  border: 1px solid rgba(168, 116, 255, .2);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, .025);
+}
+
+.status-card h2 {
+  margin: 0 0 5px;
+  font-size: 1rem;
+}
+
+.status-card p {
+  margin: 0;
+  color: var(--muted);
+  text-transform: capitalize;
+}
+
+.status-dot {
+  width: 11px;
+  height: 11px;
+  margin-top: 5px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: currentColor;
+  box-shadow: 0 0 14px currentColor;
+}
+
+.status-ok {
+  color: #52d681;
+}
+
+.status-warn {
+  color: #f4bd50;
+}
+
+.status-bad {
+  color: #ff646f;
+}
+
+.status-unknown {
+  color: #8c8c9d;
+}
+
+.status-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+}
+
+.status-meta p {
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .status-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .status-meta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

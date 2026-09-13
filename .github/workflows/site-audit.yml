@@ -24,7 +24,10 @@ jobs:
         run: python scripts/audit_site.py
 
       - name: Check JavaScript syntax
-        run: node --check functions/stats.js
+        run: |
+          node --check functions/stats.js
+          node --check functions/health.js
+          node --check functions/_middleware.js
 
       - name: Check performance budgets
         run: python scripts/perf_audit.py
