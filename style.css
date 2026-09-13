@@ -181,4 +181,23 @@ footer {
     }
 }
 
+/* Responsive media */
+.responsive-video {
+    display: block;
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    margin: 20px auto;
+}
+
+/* Lists used purely for navigation/actions */
+.action-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.action-list li {
+    margin-bottom: 12px;
+}
 
