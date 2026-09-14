@@ -36,17 +36,65 @@ class AssetParser(HTMLParser):
         super().__init__()
         self.assets = []
 
+    def add_asset(self, value):
+        if not value:
+            return
+
+        if value.startswith((
+            "http://",
+            "https://",
+            "data:",
+            "#",
+            "mailto:",
+            "tel:",
+        )):
+            return
+
+        path = urlsplit(value).path.lstrip("/")
+
+        if path:
+            self.assets.append(path)
+
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
-        for attr in ("src", "href"):
-            value = attrs.get(attr)
-            if not value:
-                continue
-            if value.startswith(("http://", "https://", "data:", "#", "mailto:", "tel:")):
-                continue
-            path = urlsplit(value).path.lstrip("/")
-            if path:
-                self.assets.append(path)
+        tag = tag.lower()
+
+        # Resources loaded through src.
+        if tag in {
+            "img",
+            "script",
+            "video",
+            "audio",
+            "source",
+            "iframe",
+            "embed",
+            "input",
+        }:
+            self.add_asset(attrs.get("src"))
+
+        # Video poster images are separate resources.
+        if tag == "video":
+            self.add_asset(attrs.get("poster"))
+
+        # Only resource-bearing <link> elements should count.
+        # Ordinary <a href="..."> navigation does not download
+        # the destination page and must not contribute to page weight.
+        if tag == "link":
+            rel = {
+                value.lower()
+                for value in attrs.get("rel", "").split()
+            }
+
+            resource_rels = {
+                "stylesheet",
+                "icon",
+                "manifest",
+                "preload",
+                "modulepreload",
+            }
+
+            if rel & resource_rels:
+                self.add_asset(attrs.get("href"))
 
 
 print("=== FILE SIZE AUDIT ===")
