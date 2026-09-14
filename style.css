@@ -227,15 +227,15 @@ a.btn {
     box-shadow 160ms ease,
     filter 160ms ease;
 }
-
 button:hover,
 .btn:hover,
 a.btn:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.08);
-  box-shadow: 0 12px 30px rgba(123, 97, 255, 0.13);
+  transform: translateY(-3px);
+  filter: brightness(1.25);
+  box-shadow: 0 12px 30px rgba(123, 97, 255, 0.25);
   text-decoration: none;
 }
+
 
 button:active,
 .btn:active,
