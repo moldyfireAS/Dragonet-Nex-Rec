@@ -230,7 +230,7 @@ a.btn {
 
 transform: translateY(-4px) scale(1.03);
 filter: brightness(1.25);
-box-shadow: 0 18px 40px rgba(123, 97, 255, 0.35);
+box-shadow: 0 40px 60px rgba(123, 97, 255, 0.45);
 
 }
 
