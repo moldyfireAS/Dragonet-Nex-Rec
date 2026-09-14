@@ -723,4 +723,12 @@ a.btn:active {
   margin-bottom: 0;
 }
 
-.support-check
+.support-checklist label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, .02);
+}
