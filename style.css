@@ -204,7 +204,6 @@ li + li {
   box-shadow: var(--shadow);
 }
 
-/* FIXED BUTTON SYSTEM */
 button,
 .btn,
 a.btn {
@@ -241,8 +240,6 @@ button:active,
 a.btn:active {
   transform: translateY(0);
 }
-
-/* Everything below this point was already valid — unchanged */
 
 .responsive-video {
   display: block;
@@ -726,10 +723,4 @@ a.btn:active {
   margin-bottom: 0;
 }
 
-.support-checklist {
-  display: grid;
-  gap: 10px;
-  max-width: 760px;
-}
-
-.support-checklist
+.support-check
