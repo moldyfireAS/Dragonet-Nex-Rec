@@ -233,7 +233,7 @@ button:hover,
 a.btn:hover {
   transform: translateY(-1px);
   filter: brightness(1.08);
-  box-shadow: 0 12px 30px 
+  box-shadow: 0 12px 30px rgba(123, 97, 255, 0.13);
   text-decoration: none;
 }
 
