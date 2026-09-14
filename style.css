@@ -228,10 +228,12 @@ a.btn {
     filter 160ms ease;
 }
 
-transform: translateY(-4px) scale(1.03);
-filter: brightness(1.25);
-box-shadow: 0 40px 60px rgba(123, 97, 255, 0.45);
-
+button:hover,
+.btn:hover,
+a.btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  filter: brightness(1.25);
+  box-shadow: 0 20px 30px rgba(123, 97, 255, 0.45);
 }
 
 button:active,
