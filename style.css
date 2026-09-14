@@ -117,7 +117,7 @@ body {
 .site-nav a:hover,
 .footer-nav a:hover {
   color: var(--text);
-  background: rgba(163, 0, 190, 1)
+  background: rgba(163, 0, 190, 1);
   text-decoration: none;
 }
 
