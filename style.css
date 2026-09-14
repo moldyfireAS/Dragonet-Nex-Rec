@@ -732,3 +732,11 @@ a.btn:active {
   border-radius: 10px;
   background: rgba(255, 255, 255, .02);
 }
+
+/* Copyright notice */
+.site-copyright {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: .85rem;
+  line-height: 1.5;
+}
