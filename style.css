@@ -733,10 +733,20 @@ a.btn:active {
   background: rgba(255, 255, 255, .02);
 }
 
-/* Copyright notice */
+/* Detailed copyright notice */
 .site-copyright {
-  margin: 8px 0 0;
+  max-width: 760px;
+  margin-top: 12px;
   color: var(--muted);
-  font-size: .85rem;
-  line-height: 1.5;
+  font-size: .78rem;
+  line-height: 1.55;
+}
+
+.site-copyright p {
+  margin: 5px 0;
+}
+
+.site-copyright strong {
+  color: inherit;
+  font-size: .84rem;
 }
