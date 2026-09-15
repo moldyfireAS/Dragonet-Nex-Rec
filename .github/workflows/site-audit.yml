@@ -20,6 +20,9 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Verify asset cache versions
+        run: python scripts/update_asset_versions.py --check
+
       - name: Audit site
         run: python scripts/audit_site.py
 
