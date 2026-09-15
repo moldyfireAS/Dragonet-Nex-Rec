@@ -1,4 +1,4 @@
 #wd gaster in deltarune
 *.xml linguist-language=xml linguist-detectable=true
 *.json linguist-language=json linguist-detectable=true
-*.yml linguist-language=YAML linguist-detectable=true
+*.yml linguist-language=json linguist-detectable=true
