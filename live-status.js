@@ -57,33 +57,144 @@
     }
   }
 
+  function incidentMessage(state) {
+    switch (state) {
+      case "degraded":
+        return {
+          title: "Service degradation detected",
+          text: "Some N3XI0M services may be slower or temporarily unavailable.",
+        };
+
+      case "maintenance":
+        return {
+          title: "Maintenance in progress",
+          text: "N3XI0M is currently undergoing maintenance. Some features may be unavailable.",
+        };
+
+      case "unavailable":
+        return {
+          title: "Service interruption",
+          text: "N3XI0M is currently unable to confirm normal service availability.",
+        };
+
+      default:
+        return null;
+    }
+  }
+
   function getBadge() {
     return document.querySelector("[data-live-status]");
+  }
+
+  function createIncidentBanner() {
+    let banner = document.querySelector("[data-incident-banner]");
+
+    if (banner) {
+      return banner;
+    }
+
+    banner = document.createElement("aside");
+    banner.className = "site-incident-banner";
+    banner.hidden = true;
+    banner.dataset.incidentBanner = "";
+    banner.setAttribute("role", "status");
+    banner.setAttribute("aria-live", "polite");
+
+    banner.innerHTML = `
+      <div class="site-incident-banner__inner">
+        <div class="site-incident-banner__content">
+          <span
+            class="site-incident-banner__indicator"
+            aria-hidden="true"
+          ></span>
+
+          <div>
+            <strong data-incident-title></strong>
+            <span data-incident-text></span>
+          </div>
+        </div>
+
+        <a
+          class="site-incident-banner__link"
+          href="/status.html"
+        >
+          View status
+        </a>
+      </div>
+    `;
+
+    const header = document.querySelector("header");
+
+    if (header?.nextSibling) {
+      header.parentNode.insertBefore(
+        banner,
+        header.nextSibling
+      );
+    } else if (header?.parentNode) {
+      header.parentNode.appendChild(banner);
+    } else {
+      document.body.prepend(banner);
+    }
+
+    return banner;
+  }
+
+  function renderIncident(state) {
+    const banner = createIncidentBanner();
+
+    if (state === "operational") {
+      banner.hidden = true;
+      banner.removeAttribute("data-state");
+      return;
+    }
+
+    const message = incidentMessage(state);
+
+    if (!message) {
+      banner.hidden = true;
+      return;
+    }
+
+    const title = banner.querySelector("[data-incident-title]");
+    const text = banner.querySelector("[data-incident-text]");
+
+    if (title) {
+      title.textContent = message.title;
+    }
+
+    if (text) {
+      text.textContent = message.text;
+    }
+
+    banner.dataset.state = state;
+    banner.hidden = false;
   }
 
   function render(state) {
     const badge = getBadge();
 
-    if (!badge) {
-      return;
-    }
-
     if (!VALID_STATES.has(state)) {
       state = "unavailable";
     }
 
-    badge.dataset.state = state;
+    if (badge) {
+      badge.dataset.state = state;
 
-    const text = badge.querySelector("[data-live-status-text]");
+      const text = badge.querySelector(
+        "[data-live-status-text]"
+      );
 
-    if (text) {
-      text.textContent = stateLabel(state);
+      if (text) {
+        text.textContent = stateLabel(state);
+      }
+
+      badge.setAttribute(
+        "aria-label",
+        `N3XI0M service status: ${stateLabel(state)}`
+      );
     }
 
-    badge.setAttribute(
-      "aria-label",
-      `N3XI0M service status: ${stateLabel(state)}`
-    );
+    renderIncident(state);
   }
 
   function readCache() {
@@ -157,12 +268,6 @@
   }
 
   function start() {
-    const badge = getBadge();
-
-    if (!badge) {
-      return;
-    }
-
     const cached = readCache();
 
     if (cached) {
@@ -175,7 +280,10 @@
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", start);
+    document.addEventListener(
+      "DOMContentLoaded",
+      start
+    );
   } else {
     start();
   }
