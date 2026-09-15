@@ -1,10 +1,10 @@
 {
-  "active": false,
-  "severity": "info",
-  "title": "",
-  "message": "",
+  "active": true,
+  "severity": "maintenance",
+  "title": "Scheduled maintenance",
+  "message": "Some services are temporarily unavailable.",
   "link": "/status.html",
   "starts_at": null,
   "expires_at": null,
-  "updated_at": "2026-09-15T12:30:00Z"
+  "updated_at": "2026-09-15T13:01:13Z"
 }
