@@ -188,6 +188,7 @@ if css_path.exists():
         "status-bad",
         "status-unknown",
         "support-checklist-status--ready",
+        "panic-button",
     }
 
     unused = [
