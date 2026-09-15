@@ -23,6 +23,9 @@ jobs:
       - name: Verify asset cache versions
         run: python scripts/update_asset_versions.py --check
 
+      - name: Validate incident configuration
+        run: python scripts/validate_incident.py
+
       - name: Audit site
         run: python scripts/audit_site.py
 

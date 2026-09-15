@@ -1037,3 +1037,36 @@ a.btn:active {
     margin-left: 22px;
   }
 }
+
+/* Manual informational incidents */
+.site-incident-banner[data-state="info"] {
+  border-color: rgba(169, 116, 255, .4);
+  background: rgba(49, 28, 76, .96);
+}
+
+.site-incident-banner[data-state="info"]
+.site-incident-banner__indicator {
+  background: #a974ff;
+  box-shadow:
+    0 0 14px rgba(169, 116, 255, .8);
+}
+
+.site-incident-banner[data-source="manual"]
+.site-incident-banner__content strong::after {
+  content: " • Notice";
+  color: var(--muted);
+  font-size: .72rem;
+  font-weight: 600;
+}
+
+/* Critical manual incidents */
+.site-incident-banner[data-state="critical"] {
+  border-color: rgba(255, 83, 96, .4);
+  background: rgba(74, 20, 28, .95);
+}
+
+.site-incident-banner[data-state="critical"]
+.site-incident-banner__indicator {
+  background: #ff5360;
+  box-shadow: 0 0 14px rgba(255, 83, 96, .8);
+}
