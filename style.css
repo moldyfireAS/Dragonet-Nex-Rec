@@ -818,3 +818,96 @@ a.btn:active {
     transition: none;
   }
 }
+
+/* Global live service status */
+.site-live-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  min-height: 36px;
+  padding: 7px 12px;
+
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, .04);
+  color: var(--muted);
+
+  font-size: .82rem;
+  font-weight: 700;
+  line-height: 1;
+
+  text-decoration: none;
+
+  transition:
+    background .15s ease,
+    border-color .15s ease,
+    transform .15s ease;
+}
+
+.site-live-status:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, .07);
+}
+
+.site-live-status__dot {
+  width: 9px;
+  height: 9px;
+
+  flex: 0 0 9px;
+
+  border-radius: 50%;
+  background: #8b8b95;
+
+  box-shadow: 0 0 10px rgba(139, 139, 149, .5);
+}
+
+.site-live-status[data-state="operational"] {
+  border-color: rgba(72, 220, 125, .3);
+}
+
+.site-live-status[data-state="operational"] .site-live-status__dot {
+  background: #48dc7d;
+  box-shadow: 0 0 12px rgba(72, 220, 125, .7);
+}
+
+.site-live-status[data-state="degraded"] {
+  border-color: rgba(255, 190, 70, .35);
+}
+
+.site-live-status[data-state="degraded"] .site-live-status__dot {
+  background: #ffbe46;
+  box-shadow: 0 0 12px rgba(255, 190, 70, .7);
+}
+
+.site-live-status[data-state="maintenance"] {
+  border-color: rgba(116, 154, 255, .35);
+}
+
+.site-live-status[data-state="maintenance"] .site-live-status__dot {
+  background: #749aff;
+  box-shadow: 0 0 12px rgba(116, 154, 255, .7);
+}
+
+.site-live-status[data-state="unavailable"] {
+  border-color: rgba(255, 83, 96, .35);
+}
+
+.site-live-status[data-state="unavailable"] .site-live-status__dot {
+  background: #ff5360;
+  box-shadow: 0 0 12px rgba(255, 83, 96, .7);
+}
+
+@media (max-width: 700px) {
+  .site-live-status {
+    padding: 7px 10px;
+    font-size: .76rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-live-status {
+    transition: none;
+  }
+}
