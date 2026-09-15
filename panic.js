@@ -46,7 +46,7 @@
     button.id = "n3xi0m-panic-button";
     button.className = "panic-button";
     button.type = "button";
-    button.textContent = "PANIC";
+    button.textContent = "Exit";
     button.setAttribute(
       "aria-label",
       "Quickly leave the N3XI0M website"
