@@ -911,3 +911,129 @@ a.btn:active {
     transition: none;
   }
 }
+
+/* Automatic service incident banner */
+.site-incident-banner {
+  position: relative;
+  z-index: 40;
+
+  width: 100%;
+
+  border-bottom: 1px solid rgba(255, 255, 255, .12);
+
+  background: rgba(20, 20, 28, .96);
+  backdrop-filter: blur(16px);
+}
+
+.site-incident-banner[hidden] {
+  display: none;
+}
+
+.site-incident-banner__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+  padding: 12px 0;
+}
+
+.site-incident-banner__content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.site-incident-banner__content strong {
+  display: block;
+  margin-bottom: 3px;
+
+  color: #fff;
+  font-size: .92rem;
+}
+
+.site-incident-banner__content span {
+  color: var(--muted);
+  font-size: .82rem;
+  line-height: 1.45;
+}
+
+.site-incident-banner__indicator {
+  width: 10px;
+  height: 10px;
+
+  flex: 0 0 10px;
+
+  border-radius: 50%;
+}
+
+.site-incident-banner__link {
+  flex: 0 0 auto;
+
+  padding: 7px 11px;
+
+  border: 1px solid rgba(255, 255, 255, .15);
+  border-radius: 10px;
+
+  color: #fff;
+
+  font-size: .78rem;
+  font-weight: 700;
+  text-decoration: none;
+
+  background: rgba(255, 255, 255, .05);
+}
+
+.site-incident-banner__link:hover {
+  background: rgba(255, 255, 255, .09);
+}
+
+.site-incident-banner[data-state="degraded"] {
+  border-color: rgba(255, 190, 70, .35);
+  background: rgba(72, 52, 12, .94);
+}
+
+.site-incident-banner[data-state="degraded"]
+.site-incident-banner__indicator {
+  background: #ffbe46;
+  box-shadow: 0 0 14px rgba(255, 190, 70, .75);
+}
+
+.site-incident-banner[data-state="maintenance"] {
+  border-color: rgba(116, 154, 255, .35);
+  background: rgba(22, 36, 74, .95);
+}
+
+.site-incident-banner[data-state="maintenance"]
+.site-incident-banner__indicator {
+  background: #749aff;
+  box-shadow: 0 0 14px rgba(116, 154, 255, .75);
+}
+
+.site-incident-banner[data-state="unavailable"] {
+  border-color: rgba(255, 83, 96, .4);
+  background: rgba(74, 20, 28, .95);
+}
+
+.site-incident-banner[data-state="unavailable"]
+.site-incident-banner__indicator {
+  background: #ff5360;
+  box-shadow: 0 0 14px rgba(255, 83, 96, .8);
+}
+
+@media (max-width: 700px) {
+  .site-incident-banner__inner {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 10px;
+
+    width: min(100% - 24px, 1180px);
+    padding: 12px 0;
+  }
+
+  .site-incident-banner__link {
+    margin-left: 22px;
+  }
+}

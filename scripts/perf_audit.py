@@ -189,6 +189,11 @@ if css_path.exists():
         "status-unknown",
         "support-checklist-status--ready",
         "panic-button",
+        "site-incident-banner",
+        "site-incident-banner__inner",
+        "site-incident-banner__content",
+        "site-incident-banner__indicator",
+        "site-incident-banner__link",
     }
 
     unused = [
