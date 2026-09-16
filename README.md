@@ -158,16 +158,13 @@ Recommended rules:
 > ## Security
 >
 > Never commit:
-
 > - passwords
 > - API tokens
 > - Discord bot tokens
 > - Cloudflare secrets
 > - private keys
 > - personal credentials
->
 > If a credential is accidentally exposed, revoke and rotate it immediately.
->
 > External links opened in new tabs should use `rel="noopener noreferrer"`.
 
 ## Accessibility
