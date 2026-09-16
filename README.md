@@ -154,20 +154,21 @@ Recommended rules:
 - block branch deletion
 - prevent direct pushes to `main`
 
-## Security
+> [!CAUTION]
+> ## Security
+>
+> Never commit:
 
-Never commit:
-
-- passwords
-- API tokens
-- Discord bot tokens
-- Cloudflare secrets
-- private keys
-- personal credentials
-
-If a credential is accidentally exposed, revoke and rotate it immediately.
-
-External links opened in new tabs should use `rel="noopener noreferrer"`.
+> - passwords
+> - API tokens
+> - Discord bot tokens
+> - Cloudflare secrets
+> - private keys
+> - personal credentials
+>
+> If a credential is accidentally exposed, revoke and rotate it immediately.
+>
+> External links opened in new tabs should use `rel="noopener noreferrer"`.
 
 ## Accessibility
 
