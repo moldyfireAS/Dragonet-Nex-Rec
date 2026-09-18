@@ -194,6 +194,10 @@ if css_path.exists():
         "site-incident-banner__content",
         "site-incident-banner__indicator",
         "site-incident-banner__link",
+        "changelog-release",
+        "changelog-release__header",
+        "changelog-release__meta",
+        "changelog-release__summary",
     }
 
     unused = [

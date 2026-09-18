@@ -1,0 +1,17 @@
+{
+  "releases": [
+    {
+      "version": "0.1.0",
+      "channel": "alpha",
+      "released_at": "2026-09-13",
+      "status": "available",
+      "summary": "Initial public alpha release.",
+      "highlights": [
+        "Initial public alpha release.",
+        "Launcher access is currently distributed through the official Discord.",
+        "Updates, patches and support are provided through the N3XI0M community."
+      ],
+      "known_issues": []
+    }
+  ]
+}

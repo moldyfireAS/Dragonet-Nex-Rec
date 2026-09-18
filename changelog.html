@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta
+    name="description"
+    content="View N3XI0M release notes, version history, known issues, and update information."
+  >
+
+  <title>N3XI0M Changelog</title>
+
+  <link rel="stylesheet" href="/style.css?v=2a0d6733dc">
+
+  <link
+    rel="canonical"
+    href="https://dragonet-recnet.pages.dev/changelog.html"
+  >
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="N3XI0M Changelog">
+  <meta
+    property="og:description"
+    content="N3XI0M release notes and version history."
+  >
+  <meta
+    property="og:url"
+    content="https://dragonet-recnet.pages.dev/changelog.html"
+  >
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="N3XI0M Changelog">
+  <meta
+    name="twitter:description"
+    content="N3XI0M release notes and version history."
+  >
+  <meta
+    name="twitter:image"
+    content="https://dragonet-recnet.pages.dev/nexi2.png"
+  >
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="manifest" href="/site.webmanifest">
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="site-shell site-header__inner">
+
+    <a
+      class="site-brand"
+      href="/"
+      aria-label="N3XI0M home"
+    >
+      <img src="/logo.svg" alt="" aria-hidden="true">
+      <span>N3XI0M</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a href="/">Home</a>
+      <a href="/download.html">Download</a>
+      <a href="/jointheclub.html">Discord</a>
+      <a href="/TRAILER.html">Trailer</a>
+      <a href="/status.html">Status</a>
+      <a href="/support.html">Support</a>
+    </nav>
+
+    <a
+      class="site-live-status"
+      href="/status.html"
+      data-live-status
+      data-state="unavailable"
+      aria-label="N3XI0M service status: checking"
+    >
+      <span
+        class="site-live-status__dot"
+        aria-hidden="true"
+      ></span>
+
+      <span data-live-status-text>
+        Checking...
+      </span>
+    </a>
+
+  </div>
+</header>
+
+<div class="traffic-notice" role="status">
+  <strong>Traffic Protection Active</strong>
+
+  <span>
+    N3XI0M uses automated traffic protection to keep services available.
+  </span>
+</div>
+
+<main class="site-main site-shell">
+
+  <section class="changelog-hero">
+    <p class="eyebrow">Release History</p>
+
+    <h1>N3XI0M Changelog</h1>
+
+    <p>
+      Release notes, version history, known issues,
+      and update information for N3XI0M.
+    </p>
+
+    <div class="download-actions">
+      <a class="btn" href="/download.html">
+        Latest Release
+      </a>
+
+      <a class="btn btn-secondary" href="/support.html">
+        Support
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div
+      id="changelog-list"
+      class="changelog-list"
+      aria-live="polite"
+    >
+      <p>Loading release history…</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="site-shell site-footer__inner">
+
+    <div>
+      <strong>N3XI0M</strong>
+      <p>Community-driven social gaming revival.</p>
+    </div>
+
+    <nav
+      class="footer-nav"
+      aria-label="Footer navigation"
+    >
+      <a href="/">Home</a>
+      <a href="/download.html">Download</a>
+      <a href="/changelog.html">Changelog</a>
+      <a href="/status.html">Status</a>
+      <a href="/support.html">Support</a>
+      <a href="/legal.html">Terms &amp; Legal</a>
+    </nav>
+
+  </div>
+</footer>
+
+<script>
+(async () => {
+  const list =
+    document.getElementById("changelog-list");
+
+  const createList = items => {
+    const ul = document.createElement("ul");
+
+    for (const item of items) {
+      const li =
+        document.createElement("li");
+
+      li.textContent = item;
+      ul.appendChild(li);
+    }
+
+    return ul;
+  };
+
+  try {
+    const response = await fetch(
+      `/changelog.json?cb=${Date.now()}`,
+      {
+        cache: "no-store"
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(
+        `changelog.json returned ${response.status}`
+      );
+    }
+
+    const data = await response.json();
+
+    const releases =
+      Array.isArray(data.releases)
+        ? data.releases
+        : [];
+
+    list.replaceChildren();
+
+    if (!releases.length) {
+      const empty =
+        document.createElement("p");
+
+      empty.textContent =
+        "No releases have been recorded yet.";
+
+      list.appendChild(empty);
+
+      return;
+    }
+
+    for (const release of releases) {
+      const article =
+        document.createElement("article");
+
+      article.className =
+        "changelog-release";
+
+      const header =
+        document.createElement("div");
+
+      header.className =
+        "changelog-release__header";
+
+      const heading =
+        document.createElement("div");
+
+      const version =
+        document.createElement("h2");
+
+      version.textContent =
+        `Version ${release.version}`;
+
+      const meta =
+        document.createElement("p");
+
+      meta.className =
+        "changelog-release__meta";
+
+      meta.textContent =
+        `${release.channel} • ${release.released_at} • ${release.status}`;
+
+      heading.append(
+        version,
+        meta
+      );
+
+      header.appendChild(heading);
+
+      const summary =
+        document.createElement("p");
+
+      summary.className =
+        "changelog-release__summary";
+
+      summary.textContent =
+        release.summary;
+
+      article.append(
+        header,
+        summary
+      );
+
+      if (release.highlights?.length) {
+        const title =
+          document.createElement("h3");
+
+        title.textContent =
+          "Highlights";
+
+        article.append(
+          title,
+          createList(release.highlights)
+        );
+      }
+
+      if (release.known_issues?.length) {
+        const title =
+          document.createElement("h3");
+
+        title.textContent =
+          "Known Issues";
+
+        article.append(
+          title,
+          createList(release.known_issues)
+        );
+      }
+
+      list.appendChild(article);
+    }
+  } catch (error) {
+    console.error(
+      "Unable to load changelog",
+      error
+    );
+
+    list.textContent =
+      "Release history is currently unavailable.";
+  }
+})();
+</script>
+
+<script src="/live-status.js?v=90dbbbd632"></script>
+<script src="/panic.js?v=1b3fe5c1f5"></script>
+
+</body>
+</html>

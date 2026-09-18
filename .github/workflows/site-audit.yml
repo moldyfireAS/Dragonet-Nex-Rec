@@ -26,6 +26,9 @@ jobs:
       - name: Validate incident configuration
         run: python scripts/validate_incident.py
 
+      - name: Validate changelog
+        run: python scripts/validate_changelog.py
+
       - name: Audit site
         run: python scripts/audit_site.py
 
