@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "channel": "EA",
   "status": "unavailable",
-  "released_at": "COMING SOON",
+  "released_at": "Unreleased",
   "platforms": [
     "Windows 10",
     "Windows 11",
-    "Linux",
+    "Linux using Proton",
     "android only on 2022 build",
     "IOS",
-    "meta quest"
+    "VR headsets"
   ],
   "distribution": {
     "type": "discord",
