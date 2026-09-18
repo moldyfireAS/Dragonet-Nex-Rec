@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "channel": "alpha",
   "status": "available",
-  "released_at": "2026-09-13",
+  "released_at": "COMING SOON",
   "platforms": [
     "Windows 10",
-    "Windows 11"
+    "Windows 11",
+    "Linux"
   ],
   "distribution": {
     "type": "discord",
