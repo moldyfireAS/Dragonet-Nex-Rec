@@ -9,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 INCIDENT_FILE = ROOT / "incident.json"
+HISTORY_FILE = ROOT / "incident-history.json"
 VALIDATOR = ROOT / "scripts" / "validate_incident.py"
 
 SEVERITIES = (
@@ -79,6 +80,58 @@ def write(data):
         )
 
 
+def load_history():
+    try:
+        data = json.loads(HISTORY_FILE.read_text())
+    except FileNotFoundError:
+        return {"incidents": []}
+    except json.JSONDecodeError as exc:
+        raise SystemExit(
+            f"incident-history.json contains invalid JSON: {exc}"
+        )
+
+    if not isinstance(data, dict):
+        raise SystemExit(
+            "incident-history.json must contain an object"
+        )
+
+    incidents = data.get("incidents")
+
+    if not isinstance(incidents, list):
+        raise SystemExit(
+            "incident-history.json incidents must be a list"
+        )
+
+    return data
+
+
+def archive_incident(data):
+    if data.get("active") is not True:
+        return
+
+    history = load_history()
+
+    entry = {
+        "severity": data.get("severity", "info"),
+        "title": data.get("title", ""),
+        "message": data.get("message", ""),
+        "link": data.get("link", "/status.html"),
+        "started_at": data.get("starts_at") or data.get("updated_at"),
+        "resolved_at": utc_now(),
+    }
+
+    history["incidents"].insert(0, entry)
+
+    HISTORY_FILE.write_text(
+        json.dumps(
+            history,
+            indent=2,
+            ensure_ascii=False,
+        )
+        + "\n"
+    )
+
+
 def print_incident(data):
     print(
         json.dumps(
@@ -128,6 +181,10 @@ def schedule(args):
 
 
 def clear(_args):
+    current = load()
+
+    archive_incident(current)
+
     data = {
         "active": False,
         "severity": "info",
@@ -142,7 +199,12 @@ def clear(_args):
     write(data)
 
     print()
-    print("Incident cleared locally.")
+
+    if current.get("active") is True:
+        print("Incident archived and cleared locally.")
+    else:
+        print("Incident cleared locally.")
+
     print_incident(data)
 
 
