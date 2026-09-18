@@ -11,6 +11,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://dragonet-recnet.pages.dev/changelog.html</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://dragonet-recnet.pages.dev/jointheclub.html</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
