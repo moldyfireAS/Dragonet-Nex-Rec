@@ -1,13 +1,16 @@
 {
   "product": "N3XI0M",
   "version": "0.1.0",
-  "channel": "alpha",
-  "status": "available",
+  "channel": "EA",
+  "status": "unavailable",
   "released_at": "COMING SOON",
   "platforms": [
     "Windows 10",
     "Windows 11",
-    "Linux"
+    "Linux",
+    "android only on 2022 build",
+    "IOS",
+    "meta quest"
   ],
   "distribution": {
     "type": "discord",
