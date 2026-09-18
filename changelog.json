@@ -2,9 +2,9 @@
   "releases": [
     {
       "version": "0.1.0",
-      "channel": "alpha",
-      "released_at": "2026-09-13",
-      "status": "available",
+      "channel": "EA",
+      "released_at": "Unreleased",
+      "status": "Unavailable",
       "summary": "Initial public alpha release.",
       "highlights": [
         "Initial public alpha release.",
