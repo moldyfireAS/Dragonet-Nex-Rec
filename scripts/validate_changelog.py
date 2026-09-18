@@ -11,12 +11,15 @@ VALID_CHANNELS = {
     "alpha",
     "beta",
     "stable",
+    "EA",
 }
 
 VALID_STATUSES = {
     "available",
     "deprecated",
     "withdrawn",
+    "Unavailable",
+    "unavailable",
 }
 
 
