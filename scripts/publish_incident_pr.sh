@@ -17,7 +17,7 @@ BRANCH="$(git branch --show-current)"
 
 [ "$BRANCH" = "main" ] || die "Run this from main. Current branch: $BRANCH"
 
-git diff --quiet -- . ':!incident.json' ||
+git diff --quiet -- . ':!incident.json' ':!incident-history.json' ||
   die "Other tracked files have changes. Commit or restore them first."
 
 git diff --cached --quiet ||
@@ -27,8 +27,8 @@ git diff --cached --quiet ||
 
 python scripts/validate_incident.py
 
-if git diff --quiet -- incident.json; then
-  die "incident.json has no changes to publish."
+if git diff --quiet -- incident.json incident-history.json; then
+  die "Incident configuration has no changes to publish."
 fi
 
 ACTIVE="$(
@@ -96,7 +96,7 @@ echo
 
 git switch -c "$NEW_BRANCH"
 
-git add incident.json
+git add incident.json incident-history.json
 
 git commit \
   -m "$COMMIT_TITLE" \
@@ -121,6 +121,8 @@ $PR_SUMMARY
 ## Validation
 
 - incident.json validated successfully
+- incident configuration validated successfully
+- resolved incident history included when changed
 - no unrelated tracked changes included
 
 This PR was prepared using the N3XI0M incident publishing helper."

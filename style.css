@@ -1070,3 +1070,116 @@ a.btn:active {
   background: #ff5360;
   box-shadow: 0 0 14px rgba(255, 83, 96, .8);
 }
+
+/* Status incident history */
+.incident-history {
+  margin-top: 36px;
+}
+
+.incident-history__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.incident-history__header h2 {
+  margin-bottom: 0;
+}
+
+.incident-history__count {
+  color: var(--muted);
+  font-size: .82rem;
+  font-weight: 700;
+}
+
+.incident-history__list {
+  display: grid;
+  gap: 14px;
+}
+
+.incident-history__empty {
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 14px;
+  color: var(--muted);
+  background: rgba(255, 255, 255, .03);
+}
+
+.incident-history-card {
+  padding: 18px;
+
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 14px;
+
+  background: rgba(255, 255, 255, .035);
+}
+
+.incident-history-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.incident-history-card__top strong {
+  color: #fff;
+}
+
+.incident-history-card__top span {
+  padding: 5px 9px;
+  border-radius: 999px;
+
+  color: var(--muted);
+  background: rgba(255, 255, 255, .06);
+
+  font-size: .72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.incident-history-card p {
+  margin-bottom: 12px;
+  color: var(--muted);
+}
+
+.incident-history-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+
+  color: var(--muted);
+  font-size: .76rem;
+}
+
+.incident-history-card[data-severity="maintenance"] {
+  border-color: rgba(116, 154, 255, .3);
+}
+
+.incident-history-card[data-severity="degraded"] {
+  border-color: rgba(255, 190, 70, .3);
+}
+
+.incident-history-card[data-severity="critical"] {
+  border-color: rgba(255, 83, 96, .35);
+}
+
+.incident-history-card[data-severity="info"] {
+  border-color: rgba(169, 116, 255, .3);
+}
+
+@media (max-width: 700px) {
+  .incident-history__header {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .incident-history-card__top {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 8px;
+  }
+}

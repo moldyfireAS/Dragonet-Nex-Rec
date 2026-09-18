@@ -116,6 +116,26 @@
     <button type="button" class="btn" id="refresh-status">Refresh status</button>
   </div>
 
+  <section class="incident-history">
+    <div class="incident-history__header">
+      <div>
+        <p class="eyebrow">Operations History</p>
+        <h2>Incident History</h2>
+      </div>
+      <span class="incident-history__count" id="incident-history-count">
+        Loading…
+      </span>
+    </div>
+
+    <div
+      class="incident-history__list"
+      id="incident-history-list"
+      aria-live="polite"
+    >
+      <p class="incident-history__empty">Loading incident history…</p>
+    </div>
+  </section>
+
   <section>
     <h2>DCH Hosting Status</h2>
     <p>
@@ -273,6 +293,96 @@
     .getElementById("refresh-status")
     .addEventListener("click", refreshStatus);
 
+  const escapeHtml = value =>
+    String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+
+  const formatIncidentDate = value => {
+    if (!value) return "Unknown";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+      return "Unknown";
+    }
+
+    return date.toLocaleString();
+  };
+
+  async function loadIncidentHistory() {
+    const list = document.getElementById("incident-history-list");
+    const count = document.getElementById("incident-history-count");
+
+    try {
+      const response = await fetch(
+        `/incident-history.json?cb=${Date.now()}`,
+        { cache: "no-store" }
+      );
+
+      if (!response.ok) {
+        throw new Error(`History returned ${response.status}`);
+      }
+
+      const data = await response.json();
+      const incidents = Array.isArray(data.incidents)
+        ? data.incidents
+        : [];
+
+      count.textContent =
+        incidents.length === 1
+          ? "1 resolved incident"
+          : `${incidents.length} resolved incidents`;
+
+      if (!incidents.length) {
+        list.innerHTML = `
+          <p class="incident-history__empty">
+            No resolved incidents have been recorded.
+          </p>
+        `;
+        return;
+      }
+
+      list.innerHTML = incidents.map(incident => `
+        <article
+          class="incident-history-card"
+          data-severity="${escapeHtml(incident.severity || "info")}"
+        >
+          <div class="incident-history-card__top">
+            <strong>${escapeHtml(incident.title || "Incident")}</strong>
+            <span>${escapeHtml(incident.severity || "info")}</span>
+          </div>
+
+          <p>${escapeHtml(incident.message || "")}</p>
+
+          <div class="incident-history-card__meta">
+            <span>
+              Started:
+              ${escapeHtml(formatIncidentDate(incident.started_at))}
+            </span>
+            <span>
+              Resolved:
+              ${escapeHtml(formatIncidentDate(incident.resolved_at))}
+            </span>
+          </div>
+        </article>
+      `).join("");
+    } catch {
+      count.textContent = "Unavailable";
+
+      list.innerHTML = `
+        <p class="incident-history__empty">
+          Incident history could not be loaded.
+        </p>
+      `;
+    }
+  }
+
+  loadIncidentHistory();
+
   refreshStatus();
   setInterval(refreshStatus, 60000);
 })();
@@ -333,6 +443,6 @@
 </footer>
 
   <script src="/live-status.js?v=90dbbbd632"></script>
-  <script src="/panic.js?v=e2bc26c0ab"></script>
+  <script src="/panic.js?v=1b3fe5c1f5"></script>
 </body>
 </html>
