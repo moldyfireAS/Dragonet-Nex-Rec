@@ -7,8 +7,8 @@
   "platforms": [
     "Windows 10",
     "Windows 11",
-    "Linux using Proton",
-    "android only on 2022 build",
+    "Linux",
+    "android (only on 2022 build)",
     "IOS",
     "VR headsets"
   ],
