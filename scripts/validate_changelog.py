@@ -86,12 +86,26 @@ def main():
                 f"{version}: released_at must be a string"
             )
 
-        try:
-            date.fromisoformat(released_at)
-        except ValueError:
-            fail(
-                f"{version}: released_at must be YYYY-MM-DD"
-            )
+        if released_at == "Unreleased":
+            if status.lower() != "unavailable":
+                fail(
+                    f"{version}: an unreleased version "
+                    "cannot be marked available"
+                )
+        else:
+            try:
+                parsed_date = date.fromisoformat(released_at)
+            except ValueError:
+                fail(
+                    f"{version}: released_at must be "
+                    "YYYY-MM-DD or Unreleased"
+                )
+
+            if parsed_date.isoformat() != released_at:
+                fail(
+                    f"{version}: released_at must be "
+                    "YYYY-MM-DD"
+                )
 
         summary = release.get("summary")
 
