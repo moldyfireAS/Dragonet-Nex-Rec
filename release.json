@@ -15,7 +15,7 @@
   "distribution": {
     "type": "discord",
     "url": "/jointheclub.html",
-    "label": "Get N3XI0M through Discord"
+    "label": "Join Discord for release updates"
   },
   "requirements": {
     "architecture": "64-bit",
@@ -23,8 +23,8 @@
     "discord_required": true
   },
   "notes": [
-    "Initial public alpha release.",
-    "Launcher access is currently distributed through the official Discord.",
-    "Updates, patches and support are provided through the N3XI0M community."
+    "N3XI0M 0.1.0 Early Access is currently unreleased.",
+    "The launcher is not currently available for public download.",
+    "Release announcements and future distribution information will be provided through the official N3XI0M Discord."
   ]
 }
