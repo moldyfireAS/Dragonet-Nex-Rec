@@ -210,3 +210,6 @@ Thanks to everyone contributing to N3XI0M through development, testing, hosting,
 ---
 
 N3XI0M is an independent community project.
+
+---
+> the cd team and n3xi0m
