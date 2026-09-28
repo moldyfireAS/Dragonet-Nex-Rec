@@ -77,6 +77,86 @@
     </p>
   </div>
 
+  <section class="services-v2" aria-labelledby="services-v2-title">
+    <div class="services-v2__header">
+      <div>
+        <p class="eyebrow">Live Monitoring</p>
+        <h2 id="services-v2-title">N3XI0M Network</h2>
+      </div>
+
+      <strong
+        class="services-v2__overall"
+        data-services-overall
+        data-state="unknown"
+      >
+        Checking monitored systems…
+      </strong>
+    </div>
+
+    <div class="status-grid">
+
+      <article class="status-card" data-service="website">
+        <span
+          class="status-dot status-unknown"
+          data-service-dot
+        ></span>
+
+        <div>
+          <h2>N3XI0M Website</h2>
+          <p data-service-state>Checking…</p>
+          <small data-service-latency></small>
+        </div>
+      </article>
+
+      <article class="status-card" data-service="discord_stats">
+        <span
+          class="status-dot status-unknown"
+          data-service-dot
+        ></span>
+
+        <div>
+          <h2>Discord Stats API</h2>
+          <p data-service-state>Checking…</p>
+          <small data-service-latency></small>
+        </div>
+      </article>
+
+      <article class="status-card" data-service="recnet">
+        <span
+          class="status-dot status-unknown"
+          data-service-dot
+        ></span>
+
+        <div>
+          <h2>Dragonet RecNet</h2>
+          <p data-service-state>Checking…</p>
+          <small data-service-latency></small>
+        </div>
+      </article>
+
+      <article class="status-card" data-service="release">
+        <span
+          class="status-dot status-unknown"
+          data-service-dot
+        ></span>
+
+        <div>
+          <h2>N3XI0M Client</h2>
+          <p data-service-state>Checking…</p>
+          <small data-service-latency></small>
+        </div>
+      </article>
+
+    </div>
+
+    <p class="services-v2__checked">
+      Monitor generated:
+      <strong data-services-checked>
+        Not checked yet
+      </strong>
+    </p>
+  </section>
+
   <div class="status-grid" aria-live="polite">
     <article class="status-card">
       <span class="status-dot status-unknown" id="website-dot"></span>
@@ -442,6 +522,7 @@
   </div>
 </footer>
 
+  <script src="/status-v2.js?v=1"></script>
   <script src="/live-status.js?v=90dbbbd632"></script>
   <script src="/panic.js?v=1b3fe5c1f5"></script>
 </body>
