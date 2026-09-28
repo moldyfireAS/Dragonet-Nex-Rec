@@ -90,6 +90,7 @@ export async function onRequest(context) {
   const allowedDuringMaintenance = [
     "/health",
     "/stats",
+    "/services",
   ];
 
   if (allowedDuringMaintenance.includes(url.pathname)) {

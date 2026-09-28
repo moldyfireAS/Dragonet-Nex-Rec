@@ -54,11 +54,16 @@ async function checkHttp(url) {
       performance.now() - started
     );
 
-    return {
-      status: response.ok
-        ? "operational"
-        : "degraded",
+    let status = "operational";
 
+    if (response.status >= 500) {
+      status = "unavailable";
+    } else if (response.status >= 400) {
+      status = "degraded";
+    }
+
+    return {
+      status,
       reachable: true,
       http_status: response.status,
       latency_ms: latency,
