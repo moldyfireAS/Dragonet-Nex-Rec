@@ -2,4 +2,4 @@
 *.xml linguist-language=xml linguist-detectable=true
 *.json linguist-language=json linguist-detectable=true
 *.yml linguist-language=json linguist-detectable=true
-*.exe linguist-language=c++ linguist-detectable=true
+
