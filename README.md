@@ -202,7 +202,8 @@ Original website development:
 Bug fixing, hardening, accessibility, validation, and maintenance contributions:
 
 - **tyl-droid / Nexi / Roxy**
-
+  ## YOUTUBE
+our final offical and ONLY youtube channle is  https://www.youtube.com/@N3XIOMOFFICIAL
 ## Credits
 
 Thanks to everyone contributing to N3XI0M through development, testing, hosting, preservation, and community support.
