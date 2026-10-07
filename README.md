@@ -1,6 +1,6 @@
 # N3XI0M
 
-N3XI0M is a community-driven social gaming revival project focused on social play, creation, and community.
+```N3XI0M is a community-driven social gaming revival project focused on social play, creation, and community.```
 
 This repository contains the public N3XI0M website.
 
