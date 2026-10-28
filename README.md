@@ -4,8 +4,8 @@
 
 This repository contains the public N3XI0M website.
 
-> This repository is for the website only.
-> N3XI0M Rec.Net is still in development and will be released separately.
+> This repository is for the website only for now.
+> N3XI0M Rec.Net is still in development.
 
 ## Live Website
 
@@ -202,8 +202,6 @@ Original website development:
 Bug fixing, hardening, accessibility, validation, and maintenance contributions:
 
 - **tyl-droid / Nexi / Roxy**
-  ## YOUTUBE
-our final offical and ONLY youtube channle is  https://www.youtube.com/@N3XIOMOFFICIAL
 ## Credits
 
 Thanks to everyone contributing to N3XI0M through development, testing, hosting, preservation, and community support.
